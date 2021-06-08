@@ -7,8 +7,11 @@ import googleapiclient
 from datetime import datetime
 import threading
 from django.apps import apps
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
-API_KEYS=["AIzaSyAuTIE9X4f-gqKns4H3HGaMtf4r_AfhH3A","AIzaSyB3pucSsGKPRr4wSjj4-kN9vF1i3gHJf4E","AIzaSyA-3-2Jla42RP5CSBI7E31nfPWN81jA1MY","AIzaSyCaJJ5z6TPcljmRAPyPG34Drc_bDVRnjd0"]
+API_KEYS = list(os.getenv("key").split(","))
 
 # Thread To Fetch Data From YouTube Api After every 10 sec
 def fetchVideo(api_key=API_KEYS[0]):
@@ -41,10 +44,13 @@ def fetchVideo(api_key=API_KEYS[0]):
     # change the api key when qouta get exhausted
     except googleapiclient.errors.HttpError:
         api_keys = API_KEYS[:]
-        api_keys.remove(api_key)
-        if(len(api_keys)):
-            fetchVideo(api_key[0])
-            return
+        if api_keys:
+            api_keys.remove(api_key)
+            if(len(api_keys)):
+                fetchVideo(api_key[0])
+                return
+        
+        
 
 # view api which gives all the stored video data 
 # in a paginated response 

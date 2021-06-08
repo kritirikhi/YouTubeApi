@@ -9,6 +9,5 @@ class ApirunConfig(AppConfig):
     # Runs The Thread To Get You Tube Search Query Data
     def ready(self):
         RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
-        print(RUNNING_DEVSERVER)
         if(RUNNING_DEVSERVER):
             fetchVideo()
