@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Search You Tube Videos
+{% endblock title %}
+
+{% block style %}
+    .thumbnail{
+        height:100%;
+        width:100%
+    }
+    .pagination{
+        display:flex;
+        justify-content: center;
+        margin-top:30px;
+    }
+{% endblock style %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center">Search Results</h1>
+    </div>
+    <div class="container mt-5">
+        <div class="row mb-5">
+            <div class="col-sm-3"><strong>TITLE</strong></div>
+            <div class="col-sm-3"><strong>PUBLISHED AT</strong></div>
+            <div class="col-sm-3"><strong>Description</strong></div>
+            <div class="col-sm-3 thumbnail"><strong>RELATED THUMBNAIL</strong></div>
+        </div>
+    {% for video in all_videos %}
+        <div class="row">
+            <div class="col-sm-3">{{video.title}}</div>
+            <div class="col-sm-3">{{video.publishedAt}}</div>
+            <div class="col-sm-3">{{video.description}}</div>
+            <div class="col-sm-3 thumbnail"><img src="{{video.thumbnail_url}}" /></div>
+        </div>
+        <hr>
+    {% endfor %}
+    </div>
+{% endblock body %}

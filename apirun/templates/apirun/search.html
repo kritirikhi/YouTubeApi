@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Search You Tube Videos
+{% endblock title %}
+
+{% block style %}
+    .query-string{
+        width:80%; 
+        display:inline-block;
+    }
+    .search-btn{
+        display:inline-block;
+    }
+    .search-display{
+        margin-top:20%;
+    }
+{% endblock style %}
+
+{% block script %}
+    function search(){
+        var q = document.getElementById("q").value;
+        if(q===""){
+            alert("search something")
+            return;
+        }
+        document.location.href = "./searchview?q="+q;
+    }
+{% endblock script %}
+
+{% block body %}
+    <div class="container search-display">
+        <input class="form-control query-string" type="text" id="q" placeholder="Search" />
+        <button class="btn btn-success mb-1 search-btn" type="button" onclick="search()">Search</button>     
+    </div>
+{% endblock body %}

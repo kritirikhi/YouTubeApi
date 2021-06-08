@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    You Tube Videos
+{% endblock title %}
+
+{% block style %}
+    .thumbnail{
+        height:100%;
+        width:100%
+    }
+    .pagination{
+        display:flex;
+        justify-content: center;
+        margin-top:30px;
+    }
+{% endblock style %}
+
+{% block script %}
+
+    function filterLogic(){
+        var keyword = document.getElementById("filter").value;
+            if(keyword===""){
+                document.getElementById("results").innerHTML = "";
+                return;
+            }
+            
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var result = JSON.parse(this.responseText);
+                    var video_arr = result["video_list"]
+                    
+                    var output="<table class='table table-hover'>"
+                    output+="<tr>"
+                        output+="<th>TITLE</th>"
+                        output+="<th>PUBLISHED AT</th>"
+                        output+="<th>DESCRIPTION</th>"
+                        output+="<th>RELATED THUMBNAIL</th>"
+                    output+="</tr>"
+                    for(var i=0;i<video_arr.length;i++){
+                        output+="<tr>"
+                        output+="<td>"+video_arr[i].title+"</td>"
+                        output+="<td>"+video_arr[i].description+"</td>"
+                        output+="<td>"+video_arr[i].publishedAt+"</td>"
+                        output+="<td><img src='"+video_arr[i].thumbnail_url+"'></td>"
+                        output+="</tr>"
+                    }
+                    output+="</table>"
+                    document.getElementById('results').innerHTML=output
+                }
+            };
+            xmlhttp.open("GET","./filteraction?keyword="+keyword, true);
+            xmlhttp.send();
+    }
+    
+{% endblock script %}
+
+{% block body %}
+    <div class="container mt-5">
+        <input type="text" class="form-control" id="filter" placeholder="Add Filter Keywords For Title" onkeyup="filterLogic()" />
+    </div>
+    <div class="container mt-5" id="results">
+        <h1 class="text-center mb-5">All Results</h1>
+        <table class="table table-hover">
+        <tr>
+            <th>TITLE</th>
+            <th>PUBLISHED AT</th>
+            <th>DESCRIPTION</th>
+            <th>RELATED THUMBNAIL</th>
+        </tr>
+        {% for video in video_list %}
+        <tr>
+            <td>{{video.title}}</td>
+            <td>{{video.publishedAt}}</td>
+            <td>{{video.description}}</td>
+            <td><img src="{{video.thumbnail_url}}" /></td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+{% endblock body %}
