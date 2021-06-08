@@ -19,7 +19,7 @@ docker-compose up -d
 ```bash
   python manage.py createsuperuser
 ```
-# Api Use
+# API Use
 ##### A GET API Which Returns The Stored Video Data In A Paginated Response Sorted In Descending Order Of Published Datetime.
 ##### number of results per page are 10
 Give the query parameter page=page_number
